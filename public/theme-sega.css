@@ -1,0 +1,412 @@
+@import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+
+.theme-sega {
+  --s-blue:    #4502FF;
+  --s-yellow:  #FFDA14;
+  --s-ink:     #111827;
+  --s-paper:   #ffffff;
+  --s-success: #16A34A;
+  --s-warning: #D97706;
+  --s-danger:  #DC2626;
+  --s-muted:   #6b7280;
+  --s-press:   4px 4px 0 #111827;
+  --s-press-sm: 2px 2px 0 #111827;
+}
+
+.theme-sega * { box-sizing: border-box; margin: 0; padding: 0; }
+
+.theme-sega body {
+  background: var(--s-yellow);
+  color: var(--s-ink);
+  font-family: 'VT323', monospace;
+  font-size: 18px;
+  min-height: 100vh;
+}
+
+/* ── Header ── */
+.theme-sega header {
+  background: var(--s-blue);
+  border-bottom: 3px solid var(--s-ink);
+  padding: 8px 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.theme-sega header h1 {
+  font-family: 'VT323', monospace;
+  font-size: 36px;
+  color: var(--s-yellow);
+  letter-spacing: 3px;
+  flex: 1;
+  text-transform: uppercase;
+  text-shadow: 3px 3px 0 var(--s-ink);
+}
+.theme-sega header h1 span { color: var(--s-paper); }
+
+.theme-sega #admin-btn,
+.theme-sega #archive-season-btn,
+.theme-sega #new-season-btn {
+  background: var(--s-yellow);
+  border: 2px solid var(--s-ink);
+  color: var(--s-ink);
+  font-family: 'VT323', monospace;
+  font-size: 17px;
+  padding: 2px 14px; cursor: pointer; text-transform: uppercase;
+  border-radius: 999px;
+  box-shadow: var(--s-press-sm);
+  transition: box-shadow 80ms, transform 80ms;
+}
+.theme-sega #admin-btn:hover,
+.theme-sega #archive-season-btn:hover,
+.theme-sega #new-season-btn:hover { box-shadow: 4px 4px 0 var(--s-ink); transform: translate(-2px,-2px); }
+.theme-sega #admin-btn:active,
+.theme-sega #archive-season-btn:active,
+.theme-sega #new-season-btn:active { box-shadow: 0px 0px 0 var(--s-ink); transform: translate(2px,2px); }
+.theme-sega #admin-btn.active { background: var(--s-paper); }
+
+.theme-sega #season-banner {
+  background: var(--s-yellow);
+  border-bottom: 3px solid var(--s-ink);
+  color: var(--s-ink);
+  font-family: 'VT323', monospace;
+  font-size: 17px;
+}
+
+.theme-sega #theme-switcher-wrap { display: flex; align-items: center; gap: 6px; }
+.theme-sega #theme-switcher-wrap label {
+  color: rgba(255,255,255,0.65);
+  font-family: 'VT323', monospace;
+  font-size: 15px; text-transform: uppercase; letter-spacing: 1px;
+}
+.theme-sega #theme-select {
+  background: var(--s-paper);
+  border: 2px solid var(--s-ink);
+  color: var(--s-ink);
+  font-family: 'VT323', monospace;
+  font-size: 15px; padding: 2px 6px; cursor: pointer; outline: none;
+}
+.theme-sega #theme-select:focus { outline: 3px solid var(--s-yellow); outline-offset: 2px; }
+
+/* ── Nav ── */
+.theme-sega nav {
+  background: var(--s-ink);
+  border-bottom: 3px solid var(--s-yellow);
+  padding: 4px 20px;
+  display: flex;
+  gap: 6px;
+}
+.theme-sega nav button {
+  background: transparent;
+  border: 2px solid transparent;
+  color: rgba(255,255,255,0.55);
+  font-family: 'VT323', monospace;
+  font-size: 22px; padding: 2px 14px; cursor: pointer;
+  text-transform: uppercase; letter-spacing: 1px;
+  border-radius: 999px;
+}
+.theme-sega nav button.active {
+  background: var(--s-blue);
+  border-color: var(--s-yellow);
+  color: var(--s-yellow);
+  box-shadow: var(--s-press-sm);
+}
+.theme-sega nav button:hover:not(.active) { color: #fff; border-color: rgba(255,255,255,0.3); }
+
+/* ── Main ── */
+.theme-sega main { padding: 16px 20px; }
+.theme-sega .tab { display: none; }
+.theme-sega .tab.active { display: block; }
+
+/* ── Modals ── */
+.theme-sega .modal-overlay {
+  display: none; position: fixed; inset: 0;
+  background: rgba(17,24,39,0.72); z-index: 100;
+  align-items: center; justify-content: center;
+}
+.theme-sega .modal-overlay.open { display: flex; }
+
+.theme-sega .modal {
+  background: var(--s-paper);
+  border: 3px solid var(--s-ink);
+  box-shadow: 8px 8px 0 var(--s-blue), 14px 14px 0 var(--s-ink);
+  width: 360px; max-height: 88vh; overflow-y: auto;
+  padding: 0 0 16px 0;
+}
+.theme-sega .modal.wide { width: 520px; }
+
+.theme-sega .modal h2 {
+  background: var(--s-blue);
+  color: var(--s-yellow);
+  font-family: 'VT323', monospace;
+  font-size: 28px;
+  padding: 6px 14px; margin-bottom: 12px;
+  letter-spacing: 2px; text-transform: uppercase;
+  border-bottom: 3px solid var(--s-ink);
+}
+
+.theme-sega .modal > *:not(h2) { padding-left: 14px; padding-right: 14px; }
+
+.theme-sega .modal input,
+.theme-sega .modal select {
+  width: 100%;
+  background: var(--s-paper);
+  border: 2px solid var(--s-ink);
+  color: var(--s-ink);
+  font-family: 'VT323', monospace;
+  font-size: 18px; padding: 4px 8px; margin-bottom: 8px; outline: none;
+}
+.theme-sega .modal input:focus,
+.theme-sega .modal select:focus { outline: 3px solid var(--s-yellow); outline-offset: 2px; }
+
+.theme-sega .modal label {
+  font-size: 15px; color: var(--s-muted);
+  display: block; margin-bottom: 2px;
+  font-family: 'VT323', monospace; text-transform: uppercase; letter-spacing: 1px;
+}
+
+.theme-sega .modal-btns { display: flex; gap: 8px; margin-top: 8px; }
+.theme-sega .modal-error { color: var(--s-danger); font-size: 18px; margin-bottom: 6px; display: none; font-family: 'VT323', monospace; }
+
+/* ── Buttons ── */
+.theme-sega .btn {
+  font-family: 'VT323', monospace;
+  font-size: 18px;
+  padding: 4px 20px; border: 2px solid var(--s-ink);
+  cursor: pointer; text-transform: uppercase; letter-spacing: 1px;
+  border-radius: 999px;
+  box-shadow: var(--s-press);
+  transition: box-shadow 80ms, transform 80ms;
+}
+.theme-sega .btn:hover { box-shadow: 6px 6px 0 var(--s-ink); transform: translate(-2px,-2px); }
+.theme-sega .btn:active { box-shadow: 0px 0px 0 var(--s-ink); transform: translate(4px,4px); }
+.theme-sega .btn-primary { background: var(--s-blue); color: var(--s-paper); }
+.theme-sega .btn-ghost   { background: var(--s-paper); color: var(--s-ink); box-shadow: var(--s-press-sm); }
+.theme-sega .btn-ghost:hover { box-shadow: 4px 4px 0 var(--s-ink); transform: translate(-2px,-2px); }
+.theme-sega .btn-green   { background: var(--s-success); color: #fff; }
+.theme-sega .btn-danger  { background: var(--s-danger); color: #fff; font-size: 15px; padding: 3px 12px; }
+
+/* ── Add choice ── */
+.theme-sega .add-choice { display: flex; gap: 8px; margin-bottom: 10px; }
+.theme-sega .choice-btn {
+  flex: 1; background: var(--s-paper); border: 2px solid var(--s-ink);
+  color: var(--s-ink); font-family: 'VT323', monospace;
+  font-size: 22px; padding: 10px; cursor: pointer; text-align: center; text-transform: uppercase;
+  box-shadow: var(--s-press-sm);
+  transition: box-shadow 80ms, transform 80ms;
+}
+.theme-sega .choice-btn:hover { box-shadow: 4px 4px 0 var(--s-ink); transform: translate(-2px,-2px); }
+.theme-sega .choice-btn.selected {
+  background: var(--s-blue); color: var(--s-yellow); border-color: var(--s-ink);
+  box-shadow: 0px 0px 0 var(--s-ink); transform: translate(2px,2px);
+}
+.theme-sega .choice-btn span { display: block; font-size: 15px; margin-top: 2px; font-family: 'VT323', monospace; color: inherit; }
+
+/* ── Preview / tags ── */
+.theme-sega .preview-section { background: #f9fafb; border: 2px solid var(--s-ink); padding: 10px; margin-bottom: 8px; }
+.theme-sega .preview-section h3 { font-family: 'VT323', monospace; font-size: 17px; color: var(--s-ink); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 1px; }
+
+.theme-sega .player-tag-list { display: flex; flex-wrap: wrap; gap: 4px; }
+.theme-sega .ptag {
+  font-size: 15px; font-family: 'VT323', monospace;
+  padding: 1px 10px; border: 2px solid var(--s-ink); background: var(--s-paper); color: var(--s-ink);
+  border-radius: 999px;
+}
+.theme-sega .ptag-5 { background: var(--s-blue); color: var(--s-yellow); }
+.theme-sega .ptag-3 { background: var(--s-success); color: #fff; }
+
+.theme-sega .loading-msg { color: var(--s-muted); font-size: 18px; text-align: center; padding: 14px 0; display: none; font-family: 'VT323', monospace; text-transform: uppercase; letter-spacing: 1px; }
+
+/* ── Tiers legend ── */
+.theme-sega .tiers-legend { display: flex; gap: 6px; margin-bottom: 12px; flex-wrap: wrap; }
+.theme-sega .tier-badge {
+  display: flex; align-items: center; gap: 4px;
+  background: var(--s-paper); border: 2px solid var(--s-ink);
+  padding: 2px 10px; font-family: 'VT323', monospace; font-size: 15px; color: var(--s-ink);
+  box-shadow: var(--s-press-sm);
+}
+.theme-sega .tier-dot { width: 8px; height: 8px; border: 1px solid var(--s-ink); }
+
+/* ── Table ── */
+.theme-sega .table-wrap { overflow-x: auto; }
+.theme-sega table {
+  width: 100%; border-collapse: collapse; background: var(--s-paper);
+  border: 3px solid var(--s-ink);
+  box-shadow: 6px 6px 0 var(--s-blue), 10px 10px 0 var(--s-ink);
+}
+.theme-sega thead { background: var(--s-blue); }
+.theme-sega thead th {
+  text-align: left;
+  font-family: 'VT323', monospace; font-size: 17px;
+  color: var(--s-yellow); padding: 6px 12px;
+  border-bottom: 3px solid var(--s-ink); border-right: 1px solid rgba(255,255,255,0.15);
+  white-space: nowrap; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; user-select: none;
+}
+.theme-sega thead th.no-sort { cursor: default; }
+.theme-sega thead th:not(.no-sort):hover { background: rgba(255,255,255,0.1); }
+.theme-sega thead th.sort-asc::after  { content: ' ▲'; font-size: 11px; color: var(--s-paper); }
+.theme-sega thead th.sort-desc::after { content: ' ▼'; font-size: 11px; color: var(--s-paper); }
+.theme-sega thead th.sort-asc,
+.theme-sega thead th.sort-desc { color: var(--s-paper); }
+
+.theme-sega tbody tr { background: var(--s-paper); border-bottom: 2px solid var(--s-ink); }
+.theme-sega tbody tr:nth-child(even) { background: #f0f0f8; }
+.theme-sega tbody tr:hover { background: rgba(69,2,255,0.05); }
+.theme-sega tbody tr.editing { background: rgba(255,218,20,0.2); outline: 3px solid var(--s-yellow); }
+.theme-sega tbody td {
+  padding: 5px 12px; vertical-align: middle;
+  color: var(--s-ink); border-right: 1px solid #e5e7eb;
+  font-family: 'VT323', monospace; font-size: 18px;
+}
+.theme-sega td input,
+.theme-sega td select {
+  background: var(--s-paper); border: 2px solid var(--s-ink);
+  color: var(--s-ink); font-family: 'VT323', monospace; font-size: 18px;
+  padding: 2px 6px; width: 100%; outline: none;
+}
+.theme-sega td input:focus,
+.theme-sega td select:focus { outline: 3px solid var(--s-yellow); }
+
+.theme-sega .row-actions { display: flex; gap: 4px; white-space: nowrap; }
+
+/* ── Pills / badges ── */
+.theme-sega .tier-pill {
+  font-family: 'VT323', monospace; font-size: 15px;
+  padding: 2px 10px; display: inline-block; text-align: center;
+  border: 2px solid var(--s-ink); background: var(--s-paper); color: var(--s-ink);
+  text-transform: uppercase; letter-spacing: 1px;
+  box-shadow: var(--s-press-sm);
+}
+.theme-sega .tier-S { background: var(--s-danger);  color: #fff; }
+.theme-sega .tier-A { background: var(--s-warning); color: #fff; }
+.theme-sega .tier-B { background: var(--s-success); color: #fff; }
+.theme-sega .tier-C { background: var(--s-blue);    color: #fff; }
+.theme-sega .tier-D { background: var(--s-muted);   color: #fff; }
+
+.theme-sega .region-tag {
+  font-size: 15px; text-transform: uppercase; letter-spacing: 0.5px;
+  padding: 0px 8px; border: 2px solid var(--s-ink);
+  background: var(--s-paper); color: var(--s-ink); font-family: 'VT323', monospace;
+  border-radius: 999px;
+  box-shadow: var(--s-press-sm);
+}
+.theme-sega .region-Ulster   { background: var(--s-danger);  color: #fff; }
+.theme-sega .region-Leinster { background: var(--s-success); color: #fff; }
+.theme-sega .region-Connacht { background: var(--s-blue);    color: var(--s-yellow); }
+.theme-sega .region-Munster  { background: var(--s-ink);     color: var(--s-yellow); }
+
+.theme-sega .pts      { font-family: 'VT323', monospace; font-size: 22px; color: var(--s-blue); }
+.theme-sega .pts-5-val { color: var(--s-blue);    font-family: 'VT323', monospace; font-size: 20px; }
+.theme-sega .pts-3-val { color: var(--s-success); font-family: 'VT323', monospace; font-size: 20px; }
+.theme-sega .bonus-val { color: var(--s-warning); font-family: 'VT323', monospace; font-size: 20px; }
+
+.theme-sega a.event-link { color: var(--s-blue); text-decoration: underline; font-family: 'VT323', monospace; }
+.theme-sega a.event-link:hover { color: var(--s-danger); }
+.theme-sega .date-col { color: var(--s-muted); }
+
+/* ── Players section ── */
+.theme-sega .players-section { margin-bottom: 20px; }
+.theme-sega .section-label {
+  font-family: 'VT323', monospace;
+  font-size: 28px; letter-spacing: 2px; color: var(--s-ink);
+  margin-bottom: 8px; padding-bottom: 4px;
+  border-bottom: 3px solid var(--s-ink); text-transform: uppercase;
+}
+
+.theme-sega .players-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 8px; }
+.theme-sega .player-card {
+  background: var(--s-paper); border: 2px solid var(--s-ink);
+  padding: 6px 10px; display: flex; justify-content: space-between; align-items: center; gap: 4px;
+  box-shadow: var(--s-press-sm);
+}
+.theme-sega .player-card.pts-5 { border-left: 4px solid var(--s-blue); }
+.theme-sega .player-card.pts-3 { border-left: 4px solid var(--s-success); }
+
+.theme-sega .player-tag { font-family: 'VT323', monospace; font-size: 18px; flex: 1; color: var(--s-ink); }
+.theme-sega .player-val { font-family: 'VT323', monospace; font-size: 22px; }
+.theme-sega .val-5 { color: var(--s-blue); }
+.theme-sega .val-3 { color: var(--s-success); }
+
+/* ── Tier cards ── */
+.theme-sega .tiers-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 12px; }
+.theme-sega .tier-card {
+  background: var(--s-paper); border: 2px solid var(--s-ink); border-top: 6px solid;
+  padding: 12px 14px; display: flex; flex-direction: column; gap: 4px;
+  box-shadow: 4px 4px 0 var(--s-blue), 8px 8px 0 var(--s-ink);
+}
+.theme-sega .tier-card-name { font-family: 'VT323', monospace; font-size: 36px; letter-spacing: 2px; line-height: 1; text-transform: uppercase; }
+.theme-sega .tier-card-pts  { font-size: 17px; color: var(--s-muted); text-transform: uppercase; font-family: 'VT323', monospace; letter-spacing: 1px; }
+
+/* ── Misc ── */
+.theme-sega .state-msg { color: var(--s-muted); padding: 30px 0; text-align: center; font-size: 22px; font-family: 'VT323', monospace; text-transform: uppercase; letter-spacing: 1px; }
+
+.theme-sega .add-row-btn {
+  display: none; margin-top: 8px;
+  background: var(--s-paper); border: 2px dashed var(--s-blue); color: var(--s-blue);
+  font-family: 'VT323', monospace; font-size: 18px;
+  padding: 5px 16px; cursor: pointer; width: 100%; text-align: left; text-transform: uppercase; letter-spacing: 1px;
+  box-shadow: var(--s-press-sm);
+}
+.theme-sega .add-row-btn:hover { background: rgba(69,2,255,0.05); }
+.theme-sega .add-row-btn:active { box-shadow: 0px 0px 0 var(--s-ink); transform: translate(2px,2px); }
+
+.theme-sega .add-section-btn {
+  display: none; margin-bottom: 10px;
+  background: var(--s-paper); border: 2px dashed var(--s-blue); color: var(--s-blue);
+  font-family: 'VT323', monospace; font-size: 18px;
+  padding: 5px 16px; cursor: pointer; text-transform: uppercase; letter-spacing: 1px;
+  box-shadow: var(--s-press-sm);
+}
+.theme-sega .add-section-btn:hover { background: rgba(69,2,255,0.05); }
+.theme-sega .add-section-btn:active { box-shadow: 0px 0px 0 var(--s-ink); transform: translate(2px,2px); }
+
+.theme-sega .divider { border: none; border-top: 2px solid var(--s-ink); margin: 10px 0; }
+
+@media (max-width: 640px) {
+  .theme-sega header { padding: 8px 12px; flex-wrap: wrap; }
+  .theme-sega main { padding: 14px 10px; }
+  .theme-sega nav { padding: 0 10px; }
+  .theme-sega .modal,
+  .theme-sega .modal.wide { width: calc(100vw - 24px); }
+
+  .theme-sega .table-wrap { overflow-x: visible; }
+  .theme-sega table,
+  .theme-sega tbody { display: block; }
+  .theme-sega thead { display: none; }
+
+  .theme-sega tbody tr {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    margin-bottom: 10px;
+    background: var(--s-paper);
+    border: 2px solid var(--s-ink);
+    border-top: 4px solid var(--s-blue);
+  }
+  .theme-sega tbody td {
+    display: flex;
+    flex-direction: column;
+    padding: 8px 10px;
+    border-bottom: 1px solid var(--s-ink);
+  }
+  .theme-sega tbody td::before {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--s-muted);
+    margin-bottom: 2px;
+    font-family: 'VT323', monospace;
+  }
+  .theme-sega tbody td:nth-child(1) { grid-column: 1 / -1; }
+  .theme-sega tbody td:nth-child(1)::before { content: "Event"; }
+  .theme-sega tbody td:nth-child(2)::before { content: "Date"; }
+  .theme-sega tbody td:nth-child(3)::before { content: "Region"; }
+  .theme-sega tbody td:nth-child(4)::before { content: "Entrants"; }
+  .theme-sega tbody td:nth-child(5)::before { content: "5pt Players"; }
+  .theme-sega tbody td:nth-child(6)::before { content: "3pt Players"; }
+  .theme-sega tbody td:nth-child(7)::before { content: "Bonus Pts"; }
+  .theme-sega tbody td:nth-child(8)::before { content: "Total Pts"; }
+  .theme-sega tbody td:nth-child(9)::before { content: "Tier"; }
+  .theme-sega tbody td:nth-child(10) { grid-column: 1 / -1; }
+  .theme-sega tbody td.state-msg { grid-column: 1 / -1; }
+  .theme-sega tbody td.state-msg::before { content: none; }
+}

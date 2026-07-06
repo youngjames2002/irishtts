@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Irish SSBU PR - TTS</title>
+<link rel="stylesheet" href="theme-modern.css?v=2">
+<link rel="stylesheet" href="theme-classic.css?v=2">
+<link rel="stylesheet" href="theme-mono.css?v=2">
+<link rel="stylesheet" href="theme-tetris.css?v=2">
+<link rel="stylesheet" href="theme-sega.css?v=2">
+<script src="theme-init.js"></script>
+<style>
+#season-banner {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 8px 28px;
+}
+.season-banner-label {
+  font-weight: 600;
+  opacity: 0.65;
+  white-space: nowrap;
+}
+#season-banner-name {
+  flex: 1;
+  font-weight: 700;
+}
+</style>
+</head>
+<body>
+
+<!-- LOGIN MODAL -->
+<div class="modal-overlay" id="login-modal">
+  <div class="modal">
+    <h2>Admin Login</h2>
+    <div class="modal-error" id="login-error">Wrong password</div>
+    <input type="password" id="login-input" placeholder="Password" onkeydown="if(event.key==='Enter')doLogin()">
+    <div class="modal-btns">
+      <button class="btn btn-primary" onclick="doLogin()">Login</button>
+      <button class="btn btn-ghost" onclick="closeModal('login-modal')">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- NEW SEASON MODAL -->
+<div class="modal-overlay" id="new-season-modal">
+  <div class="modal">
+    <h2>Start New Season</h2>
+    <p style="font-size:13px;margin-bottom:12px">This will permanently wipe all current events, players and tiers. This cannot be undone.</p>
+    <div class="modal-error" id="ns-error">Wrong password</div>
+    <input type="password" id="ns-password" placeholder="Password" onkeydown="if(event.key==='Enter')confirmNewSeason()">
+    <div class="modal-btns">
+      <button class="btn btn-primary" onclick="confirmNewSeason()">Confirm</button>
+      <button class="btn btn-ghost" onclick="closeModal('new-season-modal')">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- EDIT SEASON MODAL -->
+<div class="modal-overlay" id="edit-season-modal">
+  <div class="modal">
+    <h2>Edit Season</h2>
+    <label>Season Name</label>
+    <input id="es-name" placeholder="e.g. Season 1" onkeydown="if(event.key==='Enter')saveEditSeason()">
+    <div class="modal-error" id="es-error">Please enter a season name.</div>
+    <div class="modal-btns">
+      <button class="btn btn-primary" onclick="saveEditSeason()">Save</button>
+      <button class="btn btn-ghost" onclick="closeModal('edit-season-modal')">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- ARCHIVE SEASON MODAL -->
+<div class="modal-overlay" id="archive-season-modal">
+  <div class="modal">
+    <h2>Archive Season</h2>
+    <label>Season Name</label>
+    <input id="as-name" placeholder="e.g. Season 1">
+    <div class="modal-error" id="as-error">Please enter a season name.</div>
+    <div class="modal-btns">
+      <button class="btn btn-primary" onclick="saveArchiveSeason()">Archive</button>
+      <button class="btn btn-ghost" onclick="closeModal('archive-season-modal')">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- ADD EVENT MODAL -->
+<div class="modal-overlay" id="add-event-modal">
+  <div class="modal wide">
+    <h2>Add Event</h2>
+
+    <div class="add-choice">
+      <div class="choice-btn selected" id="choice-manual" onclick="setAddMode('manual')">
+        Manual
+        <span>Enter details yourself</span>
+      </div>
+      <div class="choice-btn" id="choice-startgg" onclick="setAddMode('startgg')">
+        From start.gg
+        <span>Paste event link</span>
+      </div>
+    </div>
+
+    <!-- STARTGG PANEL -->
+    <div id="startgg-panel" style="display:none">
+      <label>start.gg event URL</label>
+      <input id="sg-url" placeholder="https://www.start.gg/tournament/.../event/..." onkeydown="if(event.key==='Enter')fetchStartgg()">
+      <div class="modal-btns" style="margin-bottom:12px">
+        <button class="btn btn-primary" onclick="fetchStartgg()">Fetch</button>
+      </div>
+      <div class="loading-msg" id="sg-loading">Fetching from start.gg...</div>
+      <div class="modal-error" id="sg-error">Could not fetch event. Check the URL and try again.</div>
+      <div id="sg-preview" style="display:none">
+        <div class="preview-section">
+          <h3>5pt Players Attending</h3>
+          <div class="player-tag-list" id="sg-5pt-list"></div>
+        </div>
+        <div class="preview-section">
+          <h3>3pt Players Attending</h3>
+          <div class="player-tag-list" id="sg-3pt-list"></div>
+        </div>
+        <hr class="divider">
+      </div>
+    </div>
+
+    <!-- MANUAL / CONFIRM FORM -->
+    <div id="manual-panel">
+      <label>Event Name</label>
+      <input id="f-name" placeholder="Event name">
+      <label>start.gg Link</label>
+      <input id="f-link" placeholder="https://www.start.gg/...">
+      <label>Date</label>
+      <input id="f-date" type="date">
+      <label>Region</label>
+      <select id="f-region">
+        <option>Leinster</option>
+        <option>Ulster</option>
+        <option>Munster</option>
+        <option>Connacht</option>
+      </select>
+      <label>Entrants</label>
+      <input id="f-entrants" type="number" placeholder="0">
+      <label>5pt Players</label>
+      <input id="f-5pt" type="number" placeholder="0">
+      <label>3pt Players</label>
+      <input id="f-3pt" type="number" placeholder="0">
+    </div>
+
+    <hr class="divider">
+    <div class="modal-error" id="save-error">Please fill in the event name.</div>
+    <div class="modal-btns">
+      <button class="btn btn-primary" onclick="saveNewEventModal()">Save Event</button>
+      <button class="btn btn-ghost" onclick="closeModal('add-event-modal')">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<header>
+  <h1>IRISH SSBU PR - <span>TTS</span></h1>
+  <div id="theme-switcher-wrap">
+    <label for="theme-select">Theme:</label>
+    <select id="theme-select" onchange="setTheme(this.value)">
+      <option value="classic">Retro 90s</option>
+      <option value="modern">Modern</option>
+      <option value="mono">Mono</option>
+      <option value="tetris">Tetris</option>
+      <option value="sega">Sega</option>
+    </select>
+  </div>
+  <button id="admin-btn" onclick="toggleAdmin()">Admin</button>
+  <button id="archive-season-btn" onclick="archiveSeason()" style="display:none">Archive Season</button>
+  <button id="new-season-btn" onclick="startNewSeason()" style="display:none">Start New Season</button>
+</header>
+
+<nav>
+  <button class="active" onclick="switchTab('events', this)">Events</button>
+  <button onclick="switchTab('players', this)">Players</button>
+  <button onclick="switchTab('tiers', this)">Tiers</button>
+  <button onclick="switchTab('seasons', this)">Old Seasons</button>
+</nav>
+
+<div id="season-banner" style="display:none">
+  <span class="season-banner-label">Viewing Season:</span>
+  <span id="season-banner-name"></span>
+  <button class="btn btn-ghost" onclick="exitHistoricView()">Back to Current</button>
+</div>
+
+<main>
+
+  <div id="tab-events" class="tab active">
+    <div class="tiers-legend" id="tiers-legend"></div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th onclick="sortTable('name')">Event</th>
+            <th onclick="sortTable('date')">Date</th>
+            <th onclick="sortTable('region')">Region</th>
+            <th onclick="sortTable('entrants')">Entrants</th>
+            <th onclick="sortTable('five_point_players')">5pt Players</th>
+            <th onclick="sortTable('three_point_players')">3pt Players</th>
+            <th onclick="sortTable('regional_bonus_points')">Bonus Pts</th>
+            <th onclick="sortTable('points_value')">Total Pts</th>
+            <th class="no-sort">Tier</th>
+            <th class="no-sort" id="events-action-col" style="display:none">Actions</th>
+          </tr>
+        </thead>
+        <tbody id="events-body">
+          <tr><td colspan="10" class="state-msg">Loading...</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <button class="add-row-btn" id="add-event-btn" onclick="openAddEventModal()">+ Add Event</button>
+  </div>
+
+  <div id="tab-players" class="tab">
+    <button class="add-section-btn" id="add-player-btn" onclick="addPlayerRow()">+ Add Player</button>
+    <div id="players-content" class="state-msg">Loading...</div>
+  </div>
+
+  <div id="tab-tiers" class="tab">
+    <button class="add-section-btn" id="add-tier-btn" onclick="addTierCard()">+ Add Tier</button>
+    <div id="tiers-content" class="state-msg">Loading...</div>
+  </div>
+
+  <div id="tab-seasons" class="tab">
+    <div id="seasons-content" class="state-msg">Loading...</div>
+  </div>
+
+</main>
+
+<script src="app.js?v=2" defer></script>
+</body>
+</html>

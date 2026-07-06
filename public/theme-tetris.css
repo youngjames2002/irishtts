@@ -1,0 +1,367 @@
+@import url('https://fonts.googleapis.com/css2?family=Bangers&display=swap');
+
+.theme-tetris {
+  --t-primary:  #1C202B;
+  --t-accent:   #7107E7;
+  --t-surface:  #DFE7FF;
+  --t-text:     #1C398E;
+  --t-success:  #16A34A;
+  --t-warning:  #D97706;
+  --t-danger:   #DC2626;
+  --t-white:    #ffffff;
+  --t-border:   #b8c5f0;
+  --t-muted:    #6b7db3;
+}
+
+.theme-tetris * { box-sizing: border-box; margin: 0; padding: 0; }
+
+.theme-tetris body {
+  background: var(--t-surface);
+  color: var(--t-text);
+  font-family: 'Bangers', cursive;
+  font-size: 16px;
+  letter-spacing: 0.5px;
+  min-height: 100vh;
+}
+
+/* ── Header ── */
+.theme-tetris header {
+  background: var(--t-primary);
+  border-bottom: 4px solid var(--t-accent);
+  padding: 10px 24px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.theme-tetris header h1 {
+  font-family: 'Bangers', cursive;
+  font-size: 34px;
+  letter-spacing: 4px;
+  color: var(--t-white);
+  text-shadow: 3px 3px 0 var(--t-accent);
+  flex: 1;
+  text-transform: uppercase;
+}
+.theme-tetris header h1 span { color: var(--t-accent); }
+
+.theme-tetris #admin-btn,
+.theme-tetris #archive-season-btn,
+.theme-tetris #new-season-btn {
+  background: var(--t-accent);
+  border: none;
+  color: #fff;
+  font-family: 'Bangers', cursive;
+  font-size: 16px; letter-spacing: 1px;
+  padding: 4px 14px; cursor: pointer; text-transform: uppercase;
+}
+.theme-tetris #admin-btn:hover,
+.theme-tetris #archive-season-btn:hover,
+.theme-tetris #new-season-btn:hover { background: #8f1aff; }
+.theme-tetris #admin-btn.active { background: var(--t-warning); color: var(--t-primary); }
+
+.theme-tetris #season-banner {
+  background: rgba(113,7,231,0.08);
+  border-bottom: 3px solid var(--t-accent);
+  color: var(--t-muted);
+}
+.theme-tetris #season-banner #season-banner-name { color: var(--t-accent); }
+
+.theme-tetris #theme-switcher-wrap { display: flex; align-items: center; gap: 6px; }
+.theme-tetris #theme-switcher-wrap label {
+  color: #8899cc;
+  font-family: 'Bangers', cursive;
+  font-size: 13px; letter-spacing: 1px; text-transform: uppercase;
+}
+.theme-tetris #theme-select {
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.25);
+  color: #fff;
+  font-family: 'Bangers', cursive;
+  font-size: 13px; padding: 3px 6px; cursor: pointer; outline: none; letter-spacing: 0.5px;
+}
+.theme-tetris #theme-select:focus { border-color: var(--t-accent); }
+
+/* ── Nav ── */
+.theme-tetris nav {
+  background: #252a3a;
+  border-bottom: 3px solid var(--t-accent);
+  padding: 0 24px;
+  display: flex;
+  gap: 2px;
+}
+.theme-tetris nav button {
+  background: none;
+  border: none;
+  border-bottom: 4px solid transparent;
+  color: #8899cc;
+  font-family: 'Bangers', cursive;
+  font-size: 20px; letter-spacing: 1.5px;
+  padding: 8px 18px; cursor: pointer; text-transform: uppercase;
+  margin-bottom: -3px;
+}
+.theme-tetris nav button.active { color: var(--t-white); border-bottom-color: var(--t-accent); }
+.theme-tetris nav button:hover:not(.active) { color: var(--t-white); }
+
+/* ── Main ── */
+.theme-tetris main { padding: 16px 24px; }
+.theme-tetris .tab { display: none; }
+.theme-tetris .tab.active { display: block; }
+
+/* ── Modals ── */
+.theme-tetris .modal-overlay {
+  display: none; position: fixed; inset: 0;
+  background: rgba(28,32,43,0.8); z-index: 100;
+  align-items: center; justify-content: center;
+}
+.theme-tetris .modal-overlay.open { display: flex; }
+
+.theme-tetris .modal {
+  background: var(--t-white);
+  border: 3px solid var(--t-primary);
+  border-top: 6px solid var(--t-accent);
+  padding: 24px;
+  width: 360px; max-height: 90vh; overflow-y: auto;
+}
+.theme-tetris .modal.wide { width: 540px; }
+
+.theme-tetris .modal h2 {
+  font-family: 'Bangers', cursive;
+  font-size: 28px; letter-spacing: 2px;
+  color: var(--t-accent); margin-bottom: 16px; text-transform: uppercase;
+}
+
+.theme-tetris .modal input,
+.theme-tetris .modal select {
+  width: 100%;
+  background: var(--t-surface);
+  border: 2px solid var(--t-border);
+  color: var(--t-text);
+  font-family: 'Bangers', cursive;
+  font-size: 17px; padding: 6px 10px; margin-bottom: 8px; outline: none; letter-spacing: 0.5px;
+}
+.theme-tetris .modal input:focus,
+.theme-tetris .modal select:focus { border-color: var(--t-accent); }
+
+.theme-tetris .modal label {
+  font-family: 'Bangers', cursive;
+  font-size: 13px; letter-spacing: 1px; color: var(--t-muted);
+  display: block; margin-bottom: 3px; text-transform: uppercase;
+}
+
+.theme-tetris .modal-btns { display: flex; gap: 8px; margin-top: 8px; }
+.theme-tetris .modal-error { color: var(--t-danger); font-size: 14px; margin-bottom: 6px; display: none; font-family: 'Bangers', cursive; letter-spacing: 0.5px; }
+
+/* ── Buttons ── */
+.theme-tetris .btn {
+  font-family: 'Bangers', cursive;
+  font-size: 19px; letter-spacing: 1px;
+  padding: 5px 18px; border: 2px solid transparent;
+  cursor: pointer; text-transform: uppercase;
+}
+.theme-tetris .btn-primary { background: var(--t-accent); color: #fff; border-color: var(--t-accent); }
+.theme-tetris .btn-primary:hover { background: #8f1aff; }
+.theme-tetris .btn-ghost { background: transparent; border-color: var(--t-border); color: var(--t-muted); }
+.theme-tetris .btn-ghost:hover { border-color: var(--t-text); color: var(--t-text); }
+.theme-tetris .btn-green { background: var(--t-success); color: #fff; border-color: var(--t-success); }
+.theme-tetris .btn-danger { background: var(--t-danger); color: #fff; border-color: var(--t-danger); font-size: 15px; padding: 3px 10px; }
+
+/* ── Add choice ── */
+.theme-tetris .add-choice { display: flex; gap: 8px; margin-bottom: 12px; }
+.theme-tetris .choice-btn {
+  flex: 1; background: var(--t-surface); border: 2px solid var(--t-border);
+  color: var(--t-muted); font-family: 'Bangers', cursive;
+  font-size: 19px; letter-spacing: 1px;
+  padding: 12px; cursor: pointer; text-align: center; text-transform: uppercase;
+}
+.theme-tetris .choice-btn:hover { border-color: var(--t-accent); color: var(--t-text); }
+.theme-tetris .choice-btn.selected { border-color: var(--t-accent); background: rgba(113,7,231,0.08); color: var(--t-accent); }
+.theme-tetris .choice-btn span { display: block; font-size: 12px; margin-top: 2px; font-family: 'Bangers', cursive; text-transform: none; }
+
+/* ── Preview / tags ── */
+.theme-tetris .preview-section { background: var(--t-surface); border: 2px solid var(--t-border); padding: 10px; margin-bottom: 8px; }
+.theme-tetris .preview-section h3 { font-family: 'Bangers', cursive; font-size: 15px; letter-spacing: 1px; color: var(--t-muted); margin-bottom: 6px; text-transform: uppercase; }
+
+.theme-tetris .player-tag-list { display: flex; flex-wrap: wrap; gap: 4px; }
+.theme-tetris .ptag { font-size: 13px; padding: 1px 8px; background: var(--t-surface); border: 2px solid var(--t-border); color: var(--t-text); font-family: 'Bangers', cursive; letter-spacing: 0.5px; }
+.theme-tetris .ptag-5 { border-color: var(--t-accent); color: var(--t-accent); }
+.theme-tetris .ptag-3 { border-color: var(--t-success); color: var(--t-success); }
+
+.theme-tetris .loading-msg { color: var(--t-muted); font-size: 17px; text-align: center; padding: 14px 0; display: none; font-family: 'Bangers', cursive; letter-spacing: 1px; }
+
+/* ── Tiers legend ── */
+.theme-tetris .tiers-legend { display: flex; gap: 6px; margin-bottom: 12px; flex-wrap: wrap; }
+.theme-tetris .tier-badge {
+  display: flex; align-items: center; gap: 4px;
+  background: var(--t-white); border: 2px solid var(--t-border);
+  padding: 3px 10px; font-family: 'Bangers', cursive; font-size: 14px; letter-spacing: 0.5px; color: var(--t-text);
+}
+.theme-tetris .tier-dot { width: 8px; height: 8px; }
+
+/* ── Table ── */
+.theme-tetris .table-wrap { overflow-x: auto; }
+.theme-tetris table { width: 100%; border-collapse: collapse; background: var(--t-white); border: 2px solid var(--t-border); }
+.theme-tetris thead { background: var(--t-primary); }
+.theme-tetris thead th {
+  text-align: left;
+  font-family: 'Bangers', cursive; font-size: 15px; letter-spacing: 1px;
+  color: #8899cc; padding: 7px 12px;
+  border-bottom: 2px solid var(--t-accent);
+  white-space: nowrap; cursor: pointer; text-transform: uppercase; user-select: none;
+}
+.theme-tetris thead th.no-sort { cursor: default; }
+.theme-tetris thead th:not(.no-sort):hover { color: var(--t-white); }
+.theme-tetris thead th.sort-asc::after  { content: ' ▲'; font-size: 10px; color: var(--t-accent); }
+.theme-tetris thead th.sort-desc::after { content: ' ▼'; font-size: 10px; color: var(--t-accent); }
+.theme-tetris thead th.sort-asc,
+.theme-tetris thead th.sort-desc { color: var(--t-white); }
+
+.theme-tetris tbody tr { background: var(--t-white); border-bottom: 1px solid var(--t-border); }
+.theme-tetris tbody tr:nth-child(even) { background: #f0f4ff; }
+.theme-tetris tbody tr:hover { background: rgba(113,7,231,0.05); }
+.theme-tetris tbody tr.editing { background: rgba(113,7,231,0.08); outline: 2px solid var(--t-accent); }
+.theme-tetris tbody td {
+  padding: 7px 12px; vertical-align: middle;
+  color: var(--t-text); border-right: 1px solid var(--t-border);
+  font-family: 'Bangers', cursive; font-size: 16px; letter-spacing: 0.5px;
+}
+.theme-tetris td input,
+.theme-tetris td select {
+  background: var(--t-surface); border: 2px solid var(--t-accent);
+  color: var(--t-text); font-family: 'Bangers', cursive; font-size: 16px;
+  padding: 2px 6px; width: 100%; outline: none;
+}
+
+.theme-tetris .row-actions { display: flex; gap: 4px; white-space: nowrap; }
+
+/* ── Pills / badges ── */
+.theme-tetris .tier-pill {
+  font-family: 'Bangers', cursive; font-size: 14px; letter-spacing: 1px;
+  padding: 2px 10px; display: inline-block; text-align: center;
+  border: 2px solid; text-transform: uppercase;
+}
+.theme-tetris .tier-S { border-color: var(--t-danger);  color: var(--t-danger);  background: rgba(220,38,38,0.08); }
+.theme-tetris .tier-A { border-color: var(--t-warning); color: var(--t-warning); background: rgba(217,119,6,0.08); }
+.theme-tetris .tier-B { border-color: var(--t-success); color: var(--t-success); background: rgba(22,163,74,0.08); }
+.theme-tetris .tier-C { border-color: var(--t-accent);  color: var(--t-accent);  background: rgba(113,7,231,0.08); }
+.theme-tetris .tier-D { border-color: var(--t-muted);   color: var(--t-muted);   background: transparent; }
+
+.theme-tetris .region-tag {
+  font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px;
+  padding: 1px 8px; border: 2px solid; font-family: 'Bangers', cursive;
+}
+.theme-tetris .region-Ulster   { border-color: var(--t-danger);  color: var(--t-danger);  background: rgba(220,38,38,0.08); }
+.theme-tetris .region-Leinster { border-color: var(--t-success); color: var(--t-success); background: rgba(22,163,74,0.08); }
+.theme-tetris .region-Connacht { border-color: var(--t-accent);  color: var(--t-accent);  background: rgba(113,7,231,0.08); }
+.theme-tetris .region-Munster  { border-color: var(--t-text);    color: var(--t-text);    background: rgba(28,57,142,0.08); }
+
+.theme-tetris .pts      { font-family: 'Bangers', cursive; font-size: 18px; letter-spacing: 1px; color: var(--t-accent); }
+.theme-tetris .pts-5-val { color: var(--t-accent);  font-family: 'Bangers', cursive; font-size: 17px; }
+.theme-tetris .pts-3-val { color: var(--t-success); font-family: 'Bangers', cursive; font-size: 17px; }
+.theme-tetris .bonus-val { color: var(--t-warning); font-family: 'Bangers', cursive; font-size: 17px; }
+
+.theme-tetris a.event-link { color: var(--t-text); text-decoration: none; font-family: 'Bangers', cursive; }
+.theme-tetris a.event-link:hover { color: var(--t-accent); }
+.theme-tetris .date-col { color: var(--t-muted); }
+
+/* ── Players section ── */
+.theme-tetris .players-section { margin-bottom: 20px; }
+.theme-tetris .section-label {
+  font-family: 'Bangers', cursive;
+  font-size: 22px; letter-spacing: 2px; color: var(--t-text);
+  margin-bottom: 8px; padding-bottom: 4px;
+  border-bottom: 3px solid var(--t-accent); text-transform: uppercase;
+}
+
+.theme-tetris .players-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 6px; }
+.theme-tetris .player-card {
+  background: var(--t-white); border: 2px solid var(--t-border);
+  padding: 6px 10px; display: flex; justify-content: space-between; align-items: center; gap: 4px;
+}
+.theme-tetris .player-card.pts-5 { border-left: 4px solid var(--t-accent); }
+.theme-tetris .player-card.pts-3 { border-left: 4px solid var(--t-success); }
+
+.theme-tetris .player-tag { font-family: 'Bangers', cursive; font-size: 16px; letter-spacing: 0.5px; flex: 1; color: var(--t-text); }
+.theme-tetris .player-val { font-family: 'Bangers', cursive; font-size: 18px; letter-spacing: 1px; }
+.theme-tetris .val-5 { color: var(--t-accent); }
+.theme-tetris .val-3 { color: var(--t-success); }
+
+/* ── Tier cards ── */
+.theme-tetris .tiers-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 8px; }
+.theme-tetris .tier-card {
+  background: var(--t-white); border: 2px solid var(--t-border); border-top: 5px solid;
+  padding: 14px 16px; display: flex; flex-direction: column; gap: 4px;
+}
+.theme-tetris .tier-card-name { font-family: 'Bangers', cursive; font-size: 32px; letter-spacing: 3px; line-height: 1; text-transform: uppercase; }
+.theme-tetris .tier-card-pts  { font-size: 14px; color: var(--t-muted); text-transform: uppercase; letter-spacing: 0.5px; font-family: 'Bangers', cursive; }
+
+/* ── Misc ── */
+.theme-tetris .state-msg { color: var(--t-muted); padding: 30px 0; text-align: center; font-size: 17px; font-family: 'Bangers', cursive; letter-spacing: 1px; }
+
+.theme-tetris .add-row-btn {
+  display: none; margin-top: 8px;
+  background: rgba(113,7,231,0.08); border: 2px dashed var(--t-accent); color: var(--t-accent);
+  font-family: 'Bangers', cursive; font-size: 18px; letter-spacing: 1px;
+  padding: 6px 18px; cursor: pointer; width: 100%; text-align: left; text-transform: uppercase;
+}
+.theme-tetris .add-row-btn:hover { background: rgba(113,7,231,0.15); }
+
+.theme-tetris .add-section-btn {
+  display: none; margin-bottom: 10px;
+  background: rgba(113,7,231,0.08); border: 2px dashed var(--t-accent); color: var(--t-accent);
+  font-family: 'Bangers', cursive; font-size: 18px; letter-spacing: 1px;
+  padding: 6px 18px; cursor: pointer; text-transform: uppercase;
+}
+.theme-tetris .add-section-btn:hover { background: rgba(113,7,231,0.15); }
+
+.theme-tetris .divider { border: none; border-top: 2px solid var(--t-border); margin: 10px 0; }
+
+@media (max-width: 640px) {
+  .theme-tetris header { padding: 10px 14px; flex-wrap: wrap; }
+  .theme-tetris main { padding: 16px 12px; }
+  .theme-tetris nav { padding: 0 12px; }
+  .theme-tetris .modal,
+  .theme-tetris .modal.wide { width: calc(100vw - 32px); }
+
+  .theme-tetris .table-wrap { overflow-x: visible; }
+  .theme-tetris table,
+  .theme-tetris tbody { display: block; }
+  .theme-tetris thead { display: none; }
+
+  .theme-tetris tbody tr {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    margin-bottom: 10px;
+    background: var(--t-white);
+    border: 1px solid var(--t-border);
+    border-top: 3px solid var(--t-accent);
+  }
+  .theme-tetris tbody td {
+    display: flex;
+    flex-direction: column;
+    padding: 8px 10px;
+    border-bottom: 1px solid var(--t-border);
+  }
+  .theme-tetris tbody td::before {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--t-muted);
+    margin-bottom: 3px;
+    font-family: 'Bangers', cursive;
+  }
+  .theme-tetris tbody td:nth-child(1) { grid-column: 1 / -1; }
+  .theme-tetris tbody td:nth-child(1)::before { content: "Event"; }
+  .theme-tetris tbody td:nth-child(2)::before { content: "Date"; }
+  .theme-tetris tbody td:nth-child(3)::before { content: "Region"; }
+  .theme-tetris tbody td:nth-child(4)::before { content: "Entrants"; }
+  .theme-tetris tbody td:nth-child(5)::before { content: "5pt Players"; }
+  .theme-tetris tbody td:nth-child(6)::before { content: "3pt Players"; }
+  .theme-tetris tbody td:nth-child(7)::before { content: "Bonus Pts"; }
+  .theme-tetris tbody td:nth-child(8)::before { content: "Total Pts"; }
+  .theme-tetris tbody td:nth-child(9)::before { content: "Tier"; }
+  .theme-tetris tbody td:nth-child(10) { grid-column: 1 / -1; }
+  .theme-tetris tbody td.state-msg { grid-column: 1 / -1; }
+  .theme-tetris tbody td.state-msg::before { content: none; }
+}

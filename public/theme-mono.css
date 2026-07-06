@@ -1,0 +1,393 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap');
+
+.theme-mono {
+  --m-green:   #37F712;
+  --m-blue:    #00A6F4;
+  --m-success: #00A63D;
+  --m-warning: #FE9900;
+  --m-danger:  #FF2157;
+  --m-surface: #E7E5E4;
+  --m-text:    #78716B;
+  --m-ink:     #2c2a28;
+  --m-border:  #c5c3c0;
+  --m-muted:   #a8a29e;
+  --m-dark:    #1c1a19;
+}
+
+.theme-mono * { box-sizing: border-box; margin: 0; padding: 0; }
+
+.theme-mono body {
+  background: var(--m-surface);
+  color: var(--m-text);
+  font-family: 'Space Mono', monospace;
+  font-size: 13px;
+  min-height: 100vh;
+}
+
+/* ── Header ── */
+.theme-mono header {
+  background: var(--m-dark);
+  border-bottom: 2px solid var(--m-green);
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.theme-mono header h1 {
+  font-family: 'Space Mono', monospace;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--m-green);
+  letter-spacing: 2px;
+  flex: 1;
+  text-transform: uppercase;
+}
+.theme-mono header h1 span { color: var(--m-blue); }
+
+.theme-mono #admin-btn,
+.theme-mono #archive-season-btn,
+.theme-mono #new-season-btn {
+  background: transparent;
+  border: 1px solid var(--m-green);
+  color: var(--m-green);
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 10px;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+.theme-mono #admin-btn:hover,
+.theme-mono #archive-season-btn:hover,
+.theme-mono #new-season-btn:hover { background: rgba(55,247,18,0.1); }
+.theme-mono #admin-btn.active { background: var(--m-green); color: var(--m-dark); }
+
+.theme-mono #season-banner {
+  background: rgba(55,247,18,0.04);
+  border-bottom: 1px solid rgba(55,247,18,0.35);
+  color: rgba(55,247,18,0.65);
+  font-family: 'Space Mono', monospace;
+  font-size: 12px;
+}
+.theme-mono #season-banner #season-banner-name { color: var(--m-green); }
+
+.theme-mono #theme-switcher-wrap { display: flex; align-items: center; gap: 6px; }
+.theme-mono #theme-switcher-wrap label {
+  color: var(--m-muted);
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+.theme-mono #theme-select {
+  background: var(--m-dark);
+  border: 1px solid var(--m-green);
+  color: var(--m-green);
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  padding: 4px 6px;
+  cursor: pointer;
+  outline: none;
+}
+.theme-mono #theme-select:focus { border-color: var(--m-blue); }
+
+/* ── Nav ── */
+.theme-mono nav {
+  background: #252320;
+  border-bottom: 1px solid #3d3a37;
+  padding: 0 20px;
+  display: flex;
+  gap: 0;
+}
+
+.theme-mono nav button {
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: var(--m-muted);
+  font-family: 'Space Mono', monospace;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 8px 16px;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: -1px;
+}
+.theme-mono nav button.active { color: var(--m-green); border-bottom-color: var(--m-green); }
+.theme-mono nav button:hover:not(.active) { color: #d6d3d1; }
+
+/* ── Main ── */
+.theme-mono main { padding: 16px 20px; }
+.theme-mono .tab { display: none; }
+.theme-mono .tab.active { display: block; }
+
+/* ── Modals ── */
+.theme-mono .modal-overlay {
+  display: none; position: fixed; inset: 0;
+  background: rgba(28,26,25,0.85); z-index: 100;
+  align-items: center; justify-content: center;
+}
+.theme-mono .modal-overlay.open { display: flex; }
+
+.theme-mono .modal {
+  background: var(--m-surface);
+  border: 1px solid var(--m-green);
+  border-top: 3px solid var(--m-green);
+  padding: 20px;
+  width: 360px; max-height: 90vh; overflow-y: auto;
+}
+.theme-mono .modal.wide { width: 540px; }
+
+.theme-mono .modal h2 {
+  font-family: 'Space Mono', monospace;
+  font-size: 14px; font-weight: 700;
+  color: var(--m-green);
+  margin-bottom: 14px;
+  text-transform: uppercase; letter-spacing: 2px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--m-border);
+}
+
+.theme-mono .modal input,
+.theme-mono .modal select {
+  width: 100%;
+  background: #fff;
+  border: 1px solid var(--m-border);
+  color: var(--m-ink);
+  font-family: 'Space Mono', monospace;
+  font-size: 12px; padding: 6px 10px; margin-bottom: 8px; outline: none;
+}
+.theme-mono .modal input:focus,
+.theme-mono .modal select:focus { border-color: var(--m-green); outline: 1px solid var(--m-green); }
+
+.theme-mono .modal label {
+  font-size: 10px; font-weight: 700; color: var(--m-muted);
+  display: block; margin-bottom: 3px;
+  text-transform: uppercase; letter-spacing: 1px;
+  font-family: 'Space Mono', monospace;
+}
+
+.theme-mono .modal-btns { display: flex; gap: 8px; margin-top: 8px; }
+.theme-mono .modal-error { color: var(--m-danger); font-size: 11px; margin-bottom: 6px; display: none; font-family: 'Space Mono', monospace; }
+
+/* ── Buttons ── */
+.theme-mono .btn {
+  font-family: 'Space Mono', monospace;
+  font-size: 12px; font-weight: 700;
+  padding: 6px 16px; border: 1px solid;
+  cursor: pointer; text-transform: uppercase; letter-spacing: 1px;
+}
+.theme-mono .btn-primary { background: var(--m-green); color: var(--m-dark); border-color: var(--m-green); }
+.theme-mono .btn-primary:hover { background: #2de010; }
+.theme-mono .btn-ghost { background: transparent; border-color: var(--m-border); color: var(--m-text); }
+.theme-mono .btn-ghost:hover { border-color: var(--m-text); }
+.theme-mono .btn-green { background: var(--m-success); color: #fff; border-color: var(--m-success); }
+.theme-mono .btn-danger { background: var(--m-danger); color: #fff; border-color: var(--m-danger); font-size: 11px; padding: 3px 10px; }
+
+/* ── Add choice ── */
+.theme-mono .add-choice { display: flex; gap: 8px; margin-bottom: 12px; }
+.theme-mono .choice-btn {
+  flex: 1; background: #fff; border: 1px solid var(--m-border);
+  color: var(--m-text); font-family: 'Space Mono', monospace;
+  font-size: 12px; font-weight: 700;
+  padding: 10px; cursor: pointer; text-align: center; text-transform: uppercase; letter-spacing: 1px;
+}
+.theme-mono .choice-btn:hover { border-color: var(--m-green); color: var(--m-ink); }
+.theme-mono .choice-btn.selected { background: rgba(55,247,18,0.1); border-color: var(--m-green); color: var(--m-ink); }
+.theme-mono .choice-btn span { display: block; font-size: 10px; font-weight: 400; margin-top: 3px; text-transform: none; letter-spacing: 0; color: var(--m-muted); }
+
+/* ── Preview / tags ── */
+.theme-mono .preview-section { background: #fff; border: 1px solid var(--m-border); padding: 10px; margin-bottom: 8px; }
+.theme-mono .preview-section h3 { font-family: 'Space Mono', monospace; font-size: 11px; font-weight: 700; color: var(--m-text); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 1px; }
+
+.theme-mono .player-tag-list { display: flex; flex-wrap: wrap; gap: 4px; }
+.theme-mono .ptag { font-size: 11px; font-weight: 700; padding: 2px 8px; background: #f5f4f3; border: 1px solid var(--m-border); color: var(--m-text); font-family: 'Space Mono', monospace; }
+.theme-mono .ptag-5 { border-color: var(--m-green); color: var(--m-dark); background: rgba(55,247,18,0.1); }
+.theme-mono .ptag-3 { border-color: var(--m-blue); color: var(--m-dark); background: rgba(0,166,244,0.1); }
+
+.theme-mono .loading-msg { color: var(--m-muted); font-size: 12px; text-align: center; padding: 14px 0; display: none; font-family: 'Space Mono', monospace; }
+.theme-mono .loading-msg::before { content: '> '; color: var(--m-green); }
+
+/* ── Tiers legend ── */
+.theme-mono .tiers-legend { display: flex; gap: 6px; margin-bottom: 12px; flex-wrap: wrap; }
+.theme-mono .tier-badge {
+  display: flex; align-items: center; gap: 4px;
+  background: #fff; border: 1px solid var(--m-border);
+  padding: 3px 8px; font-family: 'Space Mono', monospace; font-size: 11px; color: var(--m-text);
+}
+.theme-mono .tier-dot { width: 6px; height: 6px; }
+
+/* ── Table ── */
+.theme-mono .table-wrap { overflow-x: auto; }
+.theme-mono table { width: 100%; border-collapse: collapse; }
+.theme-mono thead { background: var(--m-dark); }
+.theme-mono thead th {
+  text-align: left;
+  font-family: 'Space Mono', monospace; font-size: 11px; font-weight: 700;
+  color: var(--m-green); padding: 6px 10px;
+  border-bottom: 1px solid var(--m-green);
+  white-space: nowrap; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; user-select: none;
+}
+.theme-mono thead th.no-sort { cursor: default; }
+.theme-mono thead th:not(.no-sort):hover { color: var(--m-blue); }
+.theme-mono thead th.sort-asc::after  { content: ' ▲'; font-size: 9px; color: var(--m-blue); }
+.theme-mono thead th.sort-desc::after { content: ' ▼'; font-size: 9px; color: var(--m-blue); }
+.theme-mono thead th.sort-asc,
+.theme-mono thead th.sort-desc { color: var(--m-blue); }
+
+.theme-mono tbody tr { background: #fff; border-bottom: 1px solid var(--m-border); }
+.theme-mono tbody tr:nth-child(even) { background: #f5f4f3; }
+.theme-mono tbody tr:hover { background: rgba(55,247,18,0.06); }
+.theme-mono tbody tr.editing { background: rgba(55,247,18,0.1); outline: 1px solid var(--m-green); }
+.theme-mono tbody td {
+  padding: 6px 10px; vertical-align: middle;
+  color: var(--m-ink); border-right: 1px solid #ece9e6;
+  font-family: 'Space Mono', monospace; font-size: 12px;
+}
+.theme-mono td input,
+.theme-mono td select {
+  background: #fff; border: 1px solid var(--m-green);
+  color: var(--m-ink); font-family: 'Space Mono', monospace; font-size: 12px;
+  padding: 2px 6px; width: 100%; outline: none;
+}
+
+.theme-mono .row-actions { display: flex; gap: 4px; white-space: nowrap; }
+
+/* ── Pills / badges ── */
+.theme-mono .tier-pill {
+  font-family: 'Space Mono', monospace; font-size: 11px; font-weight: 700;
+  padding: 2px 8px; display: inline-block; text-align: center;
+  border: 1px solid; background: transparent; text-transform: uppercase; letter-spacing: 1px;
+}
+.theme-mono .tier-S { border-color: var(--m-danger);  color: var(--m-danger);  background: rgba(255,33,87,0.08); }
+.theme-mono .tier-A { border-color: var(--m-warning); color: var(--m-warning); background: rgba(254,153,0,0.08); }
+.theme-mono .tier-B { border-color: var(--m-green);   color: var(--m-dark);    background: rgba(55,247,18,0.1); }
+.theme-mono .tier-C { border-color: var(--m-blue);    color: var(--m-blue);    background: rgba(0,166,244,0.08); }
+.theme-mono .tier-D { border-color: var(--m-muted);   color: var(--m-muted);   background: transparent; }
+
+.theme-mono .region-tag {
+  font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;
+  padding: 2px 6px; border: 1px solid; font-family: 'Space Mono', monospace;
+}
+.theme-mono .region-Ulster   { border-color: var(--m-danger);  color: var(--m-danger);  background: rgba(255,33,87,0.08); }
+.theme-mono .region-Leinster { border-color: var(--m-green);   color: var(--m-dark);    background: rgba(55,247,18,0.1); }
+.theme-mono .region-Connacht { border-color: var(--m-blue);    color: var(--m-blue);    background: rgba(0,166,244,0.08); }
+.theme-mono .region-Munster  { border-color: var(--m-warning); color: var(--m-warning); background: rgba(254,153,0,0.08); }
+
+.theme-mono .pts      { font-family: 'Space Mono', monospace; font-size: 13px; font-weight: 700; color: var(--m-green); }
+.theme-mono .pts-5-val { font-weight: 700; color: var(--m-success); font-family: 'Space Mono', monospace; }
+.theme-mono .pts-3-val { font-weight: 700; color: var(--m-blue);    font-family: 'Space Mono', monospace; }
+.theme-mono .bonus-val { font-weight: 700; color: var(--m-warning); font-family: 'Space Mono', monospace; }
+
+.theme-mono a.event-link { color: var(--m-blue); text-decoration: none; font-weight: 700; font-family: 'Space Mono', monospace; }
+.theme-mono a.event-link:hover { text-decoration: underline; color: var(--m-green); }
+.theme-mono .date-col { color: var(--m-muted); }
+
+/* ── Players section ── */
+.theme-mono .players-section { margin-bottom: 20px; }
+.theme-mono .section-label {
+  font-family: 'Space Mono', monospace;
+  font-size: 12px; font-weight: 700; letter-spacing: 2px;
+  color: var(--m-ink); text-transform: uppercase;
+  margin-bottom: 8px; padding-bottom: 4px;
+  border-bottom: 1px solid var(--m-green);
+}
+.theme-mono .section-label::before { content: '> '; color: var(--m-green); }
+
+.theme-mono .players-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 4px; }
+.theme-mono .player-card {
+  background: #fff; border: 1px solid var(--m-border);
+  padding: 6px 10px; display: flex; justify-content: space-between; align-items: center; gap: 4px;
+}
+.theme-mono .player-card.pts-5 { border-left: 3px solid var(--m-green); }
+.theme-mono .player-card.pts-3 { border-left: 3px solid var(--m-blue); }
+
+.theme-mono .player-tag { font-weight: 700; font-size: 12px; flex: 1; color: var(--m-ink); font-family: 'Space Mono', monospace; }
+.theme-mono .player-val { font-size: 13px; font-weight: 700; font-family: 'Space Mono', monospace; }
+.theme-mono .val-5 { color: var(--m-green); }
+.theme-mono .val-3 { color: var(--m-blue); }
+
+/* ── Tier cards ── */
+.theme-mono .tiers-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 8px; }
+.theme-mono .tier-card {
+  background: #fff; border: 1px solid var(--m-border); border-top: 3px solid;
+  padding: 12px 14px; display: flex; flex-direction: column; gap: 4px;
+}
+.theme-mono .tier-card-name { font-family: 'Space Mono', monospace; font-size: 20px; font-weight: 700; letter-spacing: 2px; line-height: 1; text-transform: uppercase; }
+.theme-mono .tier-card-pts  { font-size: 11px; color: var(--m-muted); text-transform: uppercase; letter-spacing: 0.5px; font-family: 'Space Mono', monospace; }
+
+/* ── Misc ── */
+.theme-mono .state-msg { color: var(--m-muted); padding: 30px 0; text-align: center; font-size: 12px; font-family: 'Space Mono', monospace; }
+.theme-mono .state-msg::before { content: '$ '; color: var(--m-green); }
+
+.theme-mono .add-row-btn {
+  display: none; margin-top: 8px;
+  background: rgba(55,247,18,0.1); border: 1px dashed var(--m-green); color: var(--m-ink);
+  font-family: 'Space Mono', monospace; font-size: 12px; font-weight: 700;
+  padding: 6px 16px; cursor: pointer; width: 100%; text-align: left; text-transform: uppercase; letter-spacing: 1px;
+}
+.theme-mono .add-row-btn:hover { background: rgba(55,247,18,0.2); }
+
+.theme-mono .add-section-btn {
+  display: none; margin-bottom: 10px;
+  background: rgba(55,247,18,0.1); border: 1px dashed var(--m-green); color: var(--m-ink);
+  font-family: 'Space Mono', monospace; font-size: 12px; font-weight: 700;
+  padding: 6px 16px; cursor: pointer; text-transform: uppercase; letter-spacing: 1px;
+}
+.theme-mono .add-section-btn:hover { background: rgba(55,247,18,0.2); }
+
+.theme-mono .divider { border: none; border-top: 1px solid var(--m-border); margin: 10px 0; }
+
+@media (max-width: 640px) {
+  .theme-mono header { padding: 10px 14px; flex-wrap: wrap; }
+  .theme-mono main { padding: 16px 12px; }
+  .theme-mono nav { padding: 0 12px; }
+  .theme-mono .modal,
+  .theme-mono .modal.wide { width: calc(100vw - 32px); }
+
+  .theme-mono .table-wrap { overflow-x: visible; }
+  .theme-mono table,
+  .theme-mono tbody { display: block; }
+  .theme-mono thead { display: none; }
+
+  .theme-mono tbody tr {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    margin-bottom: 10px;
+    background: var(--m-surface);
+    border: 1px solid var(--m-border);
+    border-top: 3px solid var(--m-green);
+  }
+  .theme-mono tbody td {
+    display: flex;
+    flex-direction: column;
+    padding: 8px 10px;
+    border-bottom: 1px solid var(--m-border);
+  }
+  .theme-mono tbody td::before {
+    font-size: 9px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--m-muted);
+    margin-bottom: 3px;
+    font-family: 'Space Mono', monospace;
+  }
+  .theme-mono tbody td:nth-child(1) { grid-column: 1 / -1; }
+  .theme-mono tbody td:nth-child(1)::before { content: "Event"; }
+  .theme-mono tbody td:nth-child(2)::before { content: "Date"; }
+  .theme-mono tbody td:nth-child(3)::before { content: "Region"; }
+  .theme-mono tbody td:nth-child(4)::before { content: "Entrants"; }
+  .theme-mono tbody td:nth-child(5)::before { content: "5pt Players"; }
+  .theme-mono tbody td:nth-child(6)::before { content: "3pt Players"; }
+  .theme-mono tbody td:nth-child(7)::before { content: "Bonus Pts"; }
+  .theme-mono tbody td:nth-child(8)::before { content: "Total Pts"; }
+  .theme-mono tbody td:nth-child(9)::before { content: "Tier"; }
+  .theme-mono tbody td:nth-child(10) { grid-column: 1 / -1; }
+  .theme-mono tbody td.state-msg { grid-column: 1 / -1; }
+  .theme-mono tbody td.state-msg::before { content: none; }
+}
