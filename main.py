@@ -30,15 +30,18 @@ def get_db():
         host="localhost"
     )
 
-def calculate_points(region_count: int, entrants: int, five_pt: int, three_pt: int) -> tuple:
-    bonus = round(min(100 / region_count, 30))
+def calculate_points(region_entrants: int, total_entrants: int, entrants: int, five_pt: int, three_pt: int) -> tuple:
+    share = (region_entrants / total_entrants * 100) if total_entrants else 0
+    bonus = int(min(20, max(0, 30 - share)))
     total = entrants + (five_pt * 5) + (three_pt * 3) + bonus
     return bonus, total
 
-def get_region_counts(conn) -> dict:
+def get_region_entrant_totals(conn) -> tuple:
     cur = conn.cursor()
-    cur.execute("SELECT region, COUNT(*) FROM events GROUP BY region")
-    return {row[0]: row[1] for row in cur.fetchall()}
+    cur.execute("SELECT region, SUM(entrants) FROM events WHERE entrants IS NOT NULL GROUP BY region")
+    region_totals = {row[0]: row[1] for row in cur.fetchall()}
+    total_entrants = sum(region_totals.values())
+    return region_totals, total_entrants
 
 def check_auth(authorization: Optional[str] = None):
     if authorization != f"Bearer {ADMIN_TOKEN}":
@@ -109,14 +112,14 @@ def get_events():
     cur = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
     cur.execute("SELECT * FROM events ORDER BY date DESC")
     events = cur.fetchall()
-    region_counts = get_region_counts(conn)
+    region_totals, total_entrants = get_region_entrant_totals(conn)
     result = []
     for event in events:
         row = dict(event)
         if row.get("region") and row.get("entrants") is not None and row.get("five_point_players") is not None and row.get("three_point_players") is not None:
-            count = region_counts.get(row["region"], 1)
+            region_sum = region_totals.get(row["region"], 0)
             row["regional_bonus_points"], row["points_value"] = calculate_points(
-                count, row["entrants"], row["five_point_players"], row["three_point_players"]
+                region_sum, total_entrants, row["entrants"], row["five_point_players"], row["three_point_players"]
             )
         result.append(row)
     return result
@@ -131,10 +134,10 @@ def get_event(id: int):
         raise HTTPException(status_code=404, detail="Event not found")
     row = dict(event)
     if row.get("region") and row.get("entrants") is not None and row.get("five_point_players") is not None and row.get("three_point_players") is not None:
-        region_counts = get_region_counts(conn)
-        count = region_counts.get(row["region"], 1)
+        region_totals, total_entrants = get_region_entrant_totals(conn)
+        region_sum = region_totals.get(row["region"], 0)
         row["regional_bonus_points"], row["points_value"] = calculate_points(
-            count, row["entrants"], row["five_point_players"], row["three_point_players"]
+            region_sum, total_entrants, row["entrants"], row["five_point_players"], row["three_point_players"]
         )
     return row
 
@@ -331,9 +334,10 @@ async def get_startgg_event(req: StartggRequest, authorization: Optional[str] = 
     if event.get("startAt"):
         date_str = datetime.datetime.utcfromtimestamp(event["startAt"]).strftime("%Y-%m-%d")
 
-    region_counts = get_region_counts(conn)
-    region_count = region_counts.get(guessed_region, 0) + 1
-    bonus, total = calculate_points(region_count, entrant_count, len(five_pt), len(three_pt))
+    region_totals, total_entrants = get_region_entrant_totals(conn)
+    projected_region_sum = region_totals.get(guessed_region, 0) + entrant_count
+    projected_total_entrants = total_entrants + entrant_count
+    bonus, total = calculate_points(projected_region_sum, projected_total_entrants, entrant_count, len(five_pt), len(three_pt))
 
     return {
         "name": f"{tournament['name']} - {event['name']}",
@@ -402,14 +406,14 @@ def create_season(season: Season, authorization: Optional[str] = Header(None)):
     cur = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
     cur.execute("SELECT * FROM events")
     raw_events = cur.fetchall()
-    region_counts = get_region_counts(conn)
+    region_totals, total_entrants = get_region_entrant_totals(conn)
     events = []
     for event in raw_events:
         row = dict(event)
         if row.get("region") and row.get("entrants") is not None and row.get("five_point_players") is not None and row.get("three_point_players") is not None:
-            count = region_counts.get(row["region"], 1)
+            region_sum = region_totals.get(row["region"], 0)
             row["regional_bonus_points"], row["points_value"] = calculate_points(
-                count, row["entrants"], row["five_point_players"], row["three_point_players"]
+                region_sum, total_entrants, row["entrants"], row["five_point_players"], row["three_point_players"]
             )
         events.append(row)
     cur.execute("SELECT * FROM players")
