@@ -1,6 +1,6 @@
 # irishtts
 
-Rankings site for the Irish Tekken/TTS scene: a FastAPI backend over Postgres plus a
+Tournament Tiering System site for the Irish SSBU scene: a FastAPI backend over Postgres plus a
 static frontend, with start.gg integration for pulling event entrant data.
 
 ## Layout
@@ -18,6 +18,8 @@ pip install -r requirements.txt
 cp .env.example .env       # then fill in the values
 uvicorn main:app --reload
 ```
+
+DM pascal345 on discord if you want access to the live secrets.
 
 The app reads all secrets from the environment (via `.env` in development, or the
 service environment in production) and refuses to start if any are missing. See
