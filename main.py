@@ -8,27 +8,48 @@ import secrets
 import httpx
 import datetime
 import json
+import os
+
+try:
+    from dotenv import load_dotenv
+    load_dotenv()
+except ImportError:
+    pass
+
+def require_env(name: str) -> str:
+    value = os.environ.get(name)
+    if not value:
+        raise RuntimeError(
+            f"Missing required environment variable {name}. "
+            "Copy .env.example to .env and fill it in, or export it in the service environment."
+        )
+    return value
+
+ADMIN_PASSWORD = require_env("ADMIN_PASSWORD")
+ADMIN_TOKEN = secrets.token_hex(32)
+STARTGG_TOKEN = require_env("STARTGG_TOKEN")
+
+DB_CONFIG = {
+    "dbname": os.environ.get("DB_NAME", "irishtts"),
+    "user": os.environ.get("DB_USER", "postgres"),
+    "password": require_env("DB_PASSWORD"),
+    "host": os.environ.get("DB_HOST", "localhost"),
+    "port": os.environ.get("DB_PORT", "5432"),
+}
+
+ALLOWED_ORIGINS = [o.strip() for o in os.environ.get("ALLOWED_ORIGINS", "*").split(",") if o.strip()]
 
 app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=ALLOWED_ORIGINS,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-ADMIN_PASSWORD = "REDACTED_SEE_ENV_ADMIN_PASSWORD"
-ADMIN_TOKEN = secrets.token_hex(32)
-STARTGG_TOKEN = "REDACTED_SEE_ENV_STARTGG_TOKEN"
-
 def get_db():
-    return psycopg2.connect(
-        dbname="irishtts",
-        user="postgres",
-        password="REDACTED_SEE_ENV_DB_PASSWORD",
-        host="localhost"
-    )
+    return psycopg2.connect(**DB_CONFIG)
 
 def calculate_points(region_entrants: int, total_entrants: int, entrants: int, five_pt: int, three_pt: int) -> tuple:
     share = (region_entrants / total_entrants * 100) if total_entrants else 0
@@ -44,7 +65,7 @@ def get_region_entrant_totals(conn) -> tuple:
     return region_totals, total_entrants
 
 def check_auth(authorization: Optional[str] = None):
-    if authorization != f"Bearer {ADMIN_TOKEN}":
+    if not authorization or not secrets.compare_digest(authorization, f"Bearer {ADMIN_TOKEN}"):
         raise HTTPException(status_code=401, detail="Unauthorized")
 
 # --- AUTH ---
@@ -54,7 +75,7 @@ class AuthRequest(BaseModel):
 
 @app.post("/auth")
 def auth(req: AuthRequest):
-    if req.password != ADMIN_PASSWORD:
+    if not secrets.compare_digest(req.password, ADMIN_PASSWORD):
         raise HTTPException(status_code=401, detail="Wrong password")
     return {"token": ADMIN_TOKEN}
 
@@ -453,7 +474,7 @@ def delete_season(id: int, authorization: Optional[str] = Header(None)):
 @app.post("/seasons/new")
 def new_season(req: NewSeasonRequest, authorization: Optional[str] = Header(None)):
     check_auth(authorization)
-    if req.password != ADMIN_PASSWORD:
+    if not secrets.compare_digest(req.password, ADMIN_PASSWORD):
         raise HTTPException(status_code=401, detail="Wrong password")
     conn = get_db()
     cur = conn.cursor()

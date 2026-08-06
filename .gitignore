@@ -1,4 +1,23 @@
 venv/
+.venv/
 __pycache__/
 *.pyc
 *.deb
+
+# Secrets — never commit
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Local editor / OS noise
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Database dumps
+*.sql
+*.dump
+*.bak
