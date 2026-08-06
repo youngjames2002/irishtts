@@ -54,7 +54,7 @@ def get_db():
 def calculate_points(region_entrants: int, total_entrants: int, entrants: int, five_pt: int, three_pt: int) -> tuple:
     share = (region_entrants / total_entrants * 100) if total_entrants else 0
     bonus = int(min(20, max(0, 30 - share)))
-    total = entrants + (five_pt * 5) + (three_pt * 3) + bonus
+    total = entrants + (five_pt * 5) + (three_pt * 3) + bonus - (five_pt+three_pt)
     return bonus, total
 
 def get_region_entrant_totals(conn) -> tuple:
