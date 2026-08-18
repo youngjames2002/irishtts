@@ -361,7 +361,7 @@ async def get_startgg_event(req: StartggRequest, authorization: Optional[str] = 
     bonus, total = calculate_points(projected_region_sum, projected_total_entrants, entrant_count, len(five_pt), len(three_pt))
 
     return {
-        "name": f"{tournament['name']} - {event['name']}",
+        "name": f"{tournament['name']}",
         "date": date_str,
         "region": guessed_region,
         "entrants": entrant_count,
